@@ -15,7 +15,7 @@ public class Shot extends RealmObject {
     private String description;
     @SerializedName("views_count")
     private long viewsCount;
-    @SerializedName("image_400_url")
+    @SerializedName("image_teaser_url")
     private String imagePath;
     private Player player;
 
