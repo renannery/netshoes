@@ -49,7 +49,7 @@ public class ShotsAdapter extends RecyclerView.Adapter<ShotsAdapter.ViewHolder> 
                 .load(dataset.get(i).getImagePath())
                 .centerCrop()
                 .fit()
-                .into(viewHolder.ivClientPhoto);
+                .into(viewHolder.ivShot);
     }
 
     @Override
@@ -77,16 +77,12 @@ public class ShotsAdapter extends RecyclerView.Adapter<ShotsAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @InjectView(R.id.tvUsername)
-        TextView tvUsername;
-        @InjectView(R.id.tvAddress)
-        TextView tvAddress;
-        @InjectView(R.id.tvIssue)
-        TextView tvIssue;
-        @InjectView(R.id.tvDistance)
-        TextView tvDistance;
-        @InjectView(R.id.ivClientPhoto)
-        ImageView ivClientPhoto;
+        @InjectView(R.id.tvViewsCount)
+        TextView tvViewsCount;
+        @InjectView(R.id.tvTitle)
+        TextView tvTitle;
+        @InjectView(R.id.ivShot)
+        ImageView ivShot;
 
         private OnItemClickListener onItemClickListener;
         private Shot shot;
@@ -106,10 +102,8 @@ public class ShotsAdapter extends RecyclerView.Adapter<ShotsAdapter.ViewHolder> 
         public void fillHolder(Shot shot) {
             this.shot = shot;
 
-            tvUsername.setText(String.valueOf(shot.getUser().getFirstName().concat(" ").concat(shot.getUser().getLastName())));
-            tvAddress.setText(shot.getAppointment().getScheduling().getLocation().getStreet());
-
-            tvIssue.setText(shot.getIssues().get(0).getDescription());
+            tvViewsCount.setText(String.valueOf(shot.getViewsCount()));
+            tvTitle.setText(shot.getTitle());
         }
     }
 }
