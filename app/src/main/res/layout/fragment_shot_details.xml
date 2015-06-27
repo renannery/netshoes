@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlShotDetails"
     android:layout_width="match_parent"
     android:paddingTop="@dimen/activity_horizontal_margin"
     android:layout_height="match_parent">

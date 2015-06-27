@@ -32,5 +32,15 @@ public abstract class BaseFragment extends Fragment {
     protected abstract int layoutToInflate();
     protected abstract void doOnCreated(View view);
     protected abstract void setUpToolbar(View view);
+
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (rootView != null) {
+            ViewGroup parentViewGroup = (ViewGroup) rootView.getParent();
+            if (parentViewGroup != null) {
+                parentViewGroup.removeAllViewsInLayout();
+            }
+        }
+    }
 }
 
