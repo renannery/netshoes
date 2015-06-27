@@ -1,6 +1,7 @@
 package br.com.netshoes.neryandroidexam.fragment;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -32,9 +33,12 @@ public class ShotsListFragment extends BaseFragment {
     @InjectView(R.id.progressbar)
     ProgressBar progressbar;
 
+    @InjectView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
     private ShotsAdapter mAdapter;
     private ArrayList<Shot> shots;
-
+    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     @Override
     protected int layoutToInflate() {
         return R.layout.fragment_shots_list;
@@ -47,23 +51,39 @@ public class ShotsListFragment extends BaseFragment {
         shots = new ArrayList<>();
         rvShots.setHasFixedSize(true);
 
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshItems();
+            }
+        });
+
+
+
         mAdapter = new ShotsAdapter(getActivity(), shots);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        rvShots.setLayoutManager(linearLayoutManager);
-        rvShots.setOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int current_page) {
                 if(current_page <= PageUtils.pagesCount) {
                     JsonManager.getInstance().popularShots(current_page++);
                 }
             }
-        });
+        };
+        rvShots.setLayoutManager(linearLayoutManager);
+        rvShots.setOnScrollListener(endlessRecyclerOnScrollListener);
         rvShots.setAdapter(mAdapter);
     }
 
     @Override
     protected void setUpToolbar(View view) {
 
+    }
+
+    private void refreshItems() {
+        mAdapter.getItems().clear();
+        endlessRecyclerOnScrollListener.reset(0, false);
+        JsonManager.getInstance().popularShots(1);
     }
 
     @Override
@@ -104,6 +124,7 @@ public class ShotsListFragment extends BaseFragment {
     }
 
     private void onItemsLoadComplete() {
+        mSwipeRefreshLayout.setRefreshing(false);
         progressbar.setVisibility(View.GONE);
     }
 }

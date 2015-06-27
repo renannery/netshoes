@@ -11,6 +11,7 @@
         android:id="@+id/rlShotItem"/>
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rlPlayer"
         android:layout_below="@id/rlShotItem"
         android:layout_width="match_parent"
