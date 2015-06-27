@@ -21,7 +21,6 @@ import br.com.netshoes.neryandroidexam.model.Shot;
 import br.com.netshoes.neryandroidexam.network.APIEndpoints;
 import de.greenrobot.event.EventBus;
 import io.realm.RealmObject;
-import retrofit.mime.TypedFile;
 
 public class JsonManager {
 
@@ -61,6 +60,7 @@ public class JsonManager {
                     JsonObject jo = new APIEndpoints().service().returnPopularShots(page);
                     Type typeShots = new TypeToken<ArrayList<Shot>>() {}.getType();
                     ArrayList<Shot> shots = gson.fromJson(jo.getAsJsonArray("shots"), typeShots);
+                    PageUtils.pagesCount = jo.get(PageUtils.pages).getAsInt();
 
                     EventBus.getDefault().post(new GenericBus(GenericBus.SHOTS_LIST, shots));
                 } catch (Exception e) {

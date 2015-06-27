@@ -4,19 +4,14 @@ package br.com.netshoes.neryandroidexam.fragment;
  * Created by nery on 6/26/2015.
  */
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import br.com.netshoes.neryandroidexam.R;
 import butterknife.ButterKnife;
 
 public abstract class BaseFragment extends Fragment {
@@ -28,7 +23,6 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         if (rootView == null) {
             rootView = inflater.inflate(layoutToInflate(), container, false);
             ButterKnife.inject(this, rootView);

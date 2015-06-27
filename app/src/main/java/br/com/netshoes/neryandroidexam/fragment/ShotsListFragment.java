@@ -10,8 +10,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import br.com.netshoes.neryandroidexam.R;
+import br.com.netshoes.neryandroidexam.activity.MainActivity;
 import br.com.netshoes.neryandroidexam.adapter.ShotsAdapter;
+import br.com.netshoes.neryandroidexam.helper.CallManager;
 import br.com.netshoes.neryandroidexam.helper.JsonManager;
+import br.com.netshoes.neryandroidexam.helper.PageUtils;
 import br.com.netshoes.neryandroidexam.interfaces.EndlessRecyclerOnScrollListener;
 import br.com.netshoes.neryandroidexam.interfaces.OnItemClickListener;
 import br.com.netshoes.neryandroidexam.model.GenericBus;
@@ -32,8 +35,6 @@ public class ShotsListFragment extends BaseFragment {
     private ShotsAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Shot> shots;
-    private int currentPage = 1;
-    private int totalPages = 50;
 
     @Override
     protected int layoutToInflate() {
@@ -42,7 +43,7 @@ public class ShotsListFragment extends BaseFragment {
 
     @Override
     protected void doOnCreated(View view) {
-        JsonManager.getInstance().popularShots(currentPage);
+        JsonManager.getInstance().popularShots(1);
 
         shots = new ArrayList<>();
         rvShots.setHasFixedSize(true);
@@ -54,7 +55,9 @@ public class ShotsListFragment extends BaseFragment {
         rvShots.setOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int current_page) {
-                JsonManager.getInstance().popularShots(current_page++);
+                if(current_page <= PageUtils.pagesCount) {
+                    JsonManager.getInstance().popularShots(current_page++);
+                }
             }
         });
         rvShots.setAdapter(mAdapter);
@@ -87,7 +90,11 @@ public class ShotsListFragment extends BaseFragment {
                 mAdapter.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onClickItem(View view, Object object) {
+                        Shot shot = (Shot) object;
+                        Bundle args = new Bundle();
+                        args.putLong(Shot.SHOT_ID, shot.getId());
 
+                        ((MainActivity) getActivity()).setFragmentMain(CallManager.shotDetailsFragment(args));
                     }
                 });
 

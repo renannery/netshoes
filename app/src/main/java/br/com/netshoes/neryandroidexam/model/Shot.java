@@ -3,12 +3,16 @@ package br.com.netshoes.neryandroidexam.model;
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by nery on 6/26/2015.
  */
 public class Shot extends RealmObject {
+    @Ignore
+    public static String SHOT_ID = "id";
+
     @PrimaryKey
     private long id;
     private String title;

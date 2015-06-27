@@ -5,8 +5,9 @@ package br.com.netshoes.neryandroidexam.helper;
  */
 
 import android.app.Fragment;
+import android.os.Bundle;
 
-import br.com.netshoes.neryandroidexam.fragment.ShotDetailFragment;
+import br.com.netshoes.neryandroidexam.fragment.ShotDetailsFragment;
 import br.com.netshoes.neryandroidexam.fragment.ShotsListFragment;
 
 public class CallManager {
@@ -16,8 +17,12 @@ public class CallManager {
         return fragment;
     }
 
-    public static final Fragment shotDetailsFragment() {
-        Fragment fragment = new ShotDetailFragment();
+    public static final Fragment shotDetailsFragment(Bundle args) {
+        Fragment fragment = new ShotDetailsFragment();
+        if (!args.isEmpty()) {
+            fragment.setArguments(args);
+        }
+
         return fragment;
     }
 }

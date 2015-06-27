@@ -14,7 +14,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void doOnCreated(Bundle savedInstanceState) {
-        setFragmentMain(CallManager.shotsListFragment(), true);
+        setFragmentMain(CallManager.shotsListFragment());
     }
 
     @Override

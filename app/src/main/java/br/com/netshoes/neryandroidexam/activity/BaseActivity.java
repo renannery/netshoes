@@ -10,7 +10,6 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import br.com.netshoes.neryandroidexam.R;
 import butterknife.ButterKnife;
@@ -53,38 +52,28 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void setFragmentMain(Fragment fragment, boolean backStack) {
-        String fragmentName = fragment.getClass().getName();
-        FragmentTransaction fragmentTransaction;
-
-        if(fragmentManager.findFragmentByTag(fragmentName) != null) {
-            Log.d("FRAGMENT", "fragment already added");
-            if(fragmentManager.findFragmentByTag(fragmentName).isVisible()) {
-                return;
-            } else {
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.remove(fragmentManager.findFragmentByTag(fragmentName)).commit();
-            }
-        } else {
-            Log.d("FRAGMENT", "fragment is not added");
-        }
-
-        fragmentTransaction = fragmentManager.beginTransaction();
-        if(backStack) {
-            fragmentTransaction
-                    .addToBackStack(fragmentName);
-        }
+    public void setFragmentMain(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction
-                .replace(R.id.flMainContent, fragment, fragmentName)
+                .addToBackStack(null)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.flMainContent, fragment)
                 .commit();
-
-        fragmentManager.executePendingTransactions();
     }
 
     protected void resetToHomeFragment() {
         for(int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
             fragmentManager.popBackStack();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(fragmentManager.getBackStackEntryCount() > 1) {
+            fragmentManager.popBackStack();
+        } else {
+            super.onBackPressed();
         }
     }
 }
