@@ -33,7 +33,6 @@ public class ShotsListFragment extends BaseFragment {
     ProgressBar progressbar;
 
     private ShotsAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Shot> shots;
 
     @Override
@@ -47,7 +46,6 @@ public class ShotsListFragment extends BaseFragment {
 
         shots = new ArrayList<>();
         rvShots.setHasFixedSize(true);
-        rvShots.setLayoutManager(mLayoutManager);
 
         mAdapter = new ShotsAdapter(getActivity(), shots);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -100,7 +98,7 @@ public class ShotsListFragment extends BaseFragment {
 
                 onItemsLoadComplete();
             } else {
-                Toast.makeText(getActivity(), "Ops, something wrong =(", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), getActivity().getString(R.string.error_something_wrong), Toast.LENGTH_LONG).show();
             }
         }
     }

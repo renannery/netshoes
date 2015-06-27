@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Nery Android Exam</string>
+    <string name="shot_details_toolbar">Shot Details</string>
+    <string name="error_something_wrong">Ops, something wrong =(</string>
 </resources>

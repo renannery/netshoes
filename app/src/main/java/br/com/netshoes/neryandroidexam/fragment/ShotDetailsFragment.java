@@ -1,7 +1,8 @@
 package br.com.netshoes.neryandroidexam.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,7 +14,9 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import br.com.netshoes.neryandroidexam.R;
+import br.com.netshoes.neryandroidexam.helper.CircleTransform;
 import br.com.netshoes.neryandroidexam.helper.JsonManager;
+import br.com.netshoes.neryandroidexam.helper.PlayerUtils;
 import br.com.netshoes.neryandroidexam.model.GenericBus;
 import br.com.netshoes.neryandroidexam.model.Shot;
 import butterknife.InjectView;
@@ -93,7 +96,7 @@ public class ShotDetailsFragment extends BaseFragment {
                 shot = (Shot) event.getObject();
                 onItemsLoadComplete();
             } else {
-                Toast.makeText(getActivity(), "Ops, something wrong =(", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), getActivity().getString(R.string.error_something_wrong), Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -107,20 +110,25 @@ public class ShotDetailsFragment extends BaseFragment {
     }
 
     private void fillFields() {
+        String avatarPath = PlayerUtils.cleanAvatarPath(shot.getPlayer().getImagePath());
+        Picasso.with(getActivity())
+                .load(avatarPath)
+                .centerCrop()
+                .fit()
+                .transform(new CircleTransform())
+                .into(ivPlayerAvatar);
+
         Picasso.with(getActivity())
                 .load(shot.getImagePath())
                 .centerCrop()
                 .fit()
                 .into(ivShot);
-        Picasso.with(getActivity())
-                .load(shot.getPlayer().getImagePath())
-                .centerCrop()
-                .fit()
-                .into(ivPlayerAvatar);
+
         tvViewsCount.setText(String.valueOf(shot.getViewsCount()));
         tvTitle.setText(shot.getTitle());
         tvPlayerName.setText(shot.getPlayer().getName());
-        tvShotDescription.setText(Html.fromHtml(shot.getDescription()));
-
+        if(shot.getDescription() != null) {
+            tvShotDescription.setText(Html.fromHtml(shot.getDescription()));
+        }
     }
 }

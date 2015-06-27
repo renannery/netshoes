@@ -62,12 +62,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .commit();
     }
 
-    protected void resetToHomeFragment() {
-        for(int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
-            fragmentManager.popBackStack();
-        }
-    }
-
     @Override
     public void onBackPressed() {
         if(fragmentManager.getBackStackEntryCount() > 1) {

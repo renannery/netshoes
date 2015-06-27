@@ -15,10 +15,6 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 
 public abstract class BaseFragment extends Fragment {
-    private static String TOOLBAR_NULL_EXCEPTION = "There's no toolbar associated with this fragment.";
-
-    private Toolbar toolbar;
-    private Bundle savedInstanceState;
     View rootView;
 
     @Override
@@ -37,23 +33,5 @@ public abstract class BaseFragment extends Fragment {
     protected abstract int layoutToInflate();
     protected abstract void doOnCreated(View view);
     protected abstract void setUpToolbar(View view);
-
-    public Bundle getSavedInstanceState() {
-        return savedInstanceState;
-    }
-
-    public void setSavedInstanceState(Bundle savedInstanceState) {
-        this.savedInstanceState = savedInstanceState;
-    }
-
-    protected void doOnStateRestored(Bundle savedInstanceState) { }
-    protected void doOnWithoutRestore() { }
-
-    public Toolbar getToolbar() {
-        if(toolbar == null) {
-            throw new NullPointerException(TOOLBAR_NULL_EXCEPTION);
-        }
-        return toolbar;
-    }
 }
 
